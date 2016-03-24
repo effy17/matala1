@@ -118,7 +118,7 @@ public class DikjstraAlgorithm {
             System.out.println(path);*/
         }
         
-        /*public static void readgraph(String files){
+        public static void readgraph(String files){
     		try {
     	           
                 //System.out.print("Enter the file name with extention : ");
@@ -158,7 +158,7 @@ public class DikjstraAlgorithm {
         
 
     	}
-        */
+        
         
         public static void readblacklist(String files){
     		try {
