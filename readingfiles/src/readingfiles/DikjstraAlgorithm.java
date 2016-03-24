@@ -13,7 +13,9 @@ public class DikjstraAlgorithm {
     public static void main(String[] args) {
 
         Graph graph = new Graph();
-        for (int i = 0; i < 8; i++) {
+        graph.readgraph("C:\\res\\tinyEWD.txt");
+        graph.readblacklist("C:\\Users\\effy\\Desktop\\test1.txt");
+        /*for (int i = 0; i < 8; i++) {
             graph.addVertex(i);
         }
         
@@ -32,7 +34,7 @@ public class DikjstraAlgorithm {
         graph.addEdge(3, 6, 0.52);
         graph.addEdge(6, 0, 0.58);
         graph.addEdge(6, 4, 0.93);
-        
+        */
         /*
         graph.addEdge(4, 5, 35);
         graph.addEdge(5, 4, 35);
@@ -64,8 +66,8 @@ public class DikjstraAlgorithm {
         graph.addEdge(8, 6, 6);
         graph.addEdge(8, 7, 7);*/
         //graph.findShortestPaths(7,0);
-        graph.findShortestPaths(0,7);
-        graph.findShortestPaths(4,7);
+        //graph.findShortestPaths(0,7);
+       // graph.findShortestPaths(4,7);
         //graph.findShortestPaths(7,0);
         
         Graph h=new Graph();
@@ -80,14 +82,16 @@ public class DikjstraAlgorithm {
     
     
     public static class Graph {
-        static Vertex[] vertices;
+        static Vertex[] vertices,copy;
         static double maxSize=10;
         int size;
         static Graph k;
+        static String officialfile="";
 
         public Graph() {
             this.maxSize = maxSize;
             vertices = new Vertex[(int)maxSize];
+            copy = new Vertex[(int)maxSize];
         }
 
         public void addVertex(int name) {
@@ -120,7 +124,7 @@ public class DikjstraAlgorithm {
         
         public static void readgraph(String files){
     		try {
-    	           
+    	           officialfile=files;
                 //System.out.print("Enter the file name with extention : ");
                 File file = new File(files);
 
@@ -132,14 +136,15 @@ public class DikjstraAlgorithm {
                 for(int i=0;i<maxSize;i++){
                 	k.addVertex(i);
                 }
-                System.out.println("points "+ maxSize);
+                //System.out.println("points "+ maxSize);
                 double edges=input.nextDouble();
-                System.out.println("edges "+edges);
+                //System.out.println("edges "+edges);
                while (input.hasNextDouble()) {
             	  
             	  
                   int srcIndex = (int)input.nextDouble();
                   int destiIndex = (int)input.nextDouble();
+                  //if(readblacklist)
                   double c=input.nextDouble();
                   k.addEdge(srcIndex, destiIndex, c);
             	  
@@ -168,27 +173,35 @@ public class DikjstraAlgorithm {
 
                 Scanner input = new Scanner(file);
                 
-                 maxSize = input.nextDouble();
-                 //mat=new double[(int) points][(int) points];
-                k=new Graph();
-                for(int i=0;i<maxSize;i++){
-                	k.addVertex(i);
+                double times=input.nextDouble();
+                System.out.println(times);
+                while(times>0){
+                	int start=input.nextInt();
+                	int end=input.nextInt();
+                	double blacklist=input.nextDouble();
+                	if(blacklist>0){
+                	while(blacklist>0){
+                		int black=input.nextInt();
+                		//k.readgraph(officialfile);
+                		for(int i=0;i<k.size;i++){
+                			k.addEdge(black, i, Double.MAX_VALUE);
+                		}
+                		for(int i=0;i<k.size;i++){
+                			k.addEdge(i,black , Double.MAX_VALUE);
+                		}
+                		
+                		blacklist--;
+                	}
+                	k.findShortestPaths(start, end);
+                	k.readgraph(officialfile);
+                	}
+                	else{
+                	k.findShortestPaths(start, end);}
+                	
+                	times--;
+                	//System.out.println(times);
                 }
-                System.out.println("points "+ maxSize);
-                double edges=input.nextDouble();
-                System.out.println("edges "+edges);
-               while (input.hasNextDouble()) {
-            	  
-            	  
-                  int srcIndex = (int)input.nextDouble();
-                  int destiIndex = (int)input.nextDouble();
-                  double c=input.nextDouble();
-                  k.addEdge(srcIndex, destiIndex, c);
-            	  
-                    
-                   // System.out.println(line);
-                   
-                }
+             
                 
                 input.close();
 
@@ -197,7 +210,6 @@ public class DikjstraAlgorithm {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        
 
     	}
         
@@ -255,14 +267,25 @@ public class DikjstraAlgorithm {
                     if (vertices[temp.index].state == State.NEW) {
                         heap.add(vertices[temp.index]);
                         vertices[temp.index].state = State.IN_Q;
+                        //System.out.println(temp.index);
+                       // System.out.println((vertices[(temp.index)]));
                     }
                     if (vertices[temp.index].cost > u.cost + temp.weight) {
                         vertices[temp.index].cost = (u.cost + temp.weight);
                         heap.heapifyUP(vertices[temp.index]);
+                        //System.out.println(heap.toString());
+                        //System.out.println((vertices[(temp.index)]));
                     }
+                    //System.out.println(temp.index);
+                    //System.out.println(heap.toString());
                     temp = temp.next;
                 }
             }
+            
+           // System.out.println(heap.toString());
+            	
+            
+            
         }
 
         public static class Heap {
@@ -287,6 +310,11 @@ public class DikjstraAlgorithm {
                         break;
                     }
                 }
+            }
+            
+            public String toString(){
+            	String s=Arrays.toString(heap);
+            	return s;
             }
 
             public void heapifyUP(int position) {
