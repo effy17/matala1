@@ -6,11 +6,8 @@ import java.util.Scanner;
 
 
 import java.io.BufferedReader;
-
 import java.io.FileReader;
-
 import java.io.IOException;
-
 import java.util.regex.Pattern;
 
 public class Graph {
@@ -96,8 +93,16 @@ public class Graph {
     
 
 	}
+	//try
+	private int index(int i,int j) {
+		return i*(points+1) + j;
+	}
 	
-	
+	public String getPath(int x, int y) {
+		x=points;
+		return "(0,0)" + mat[index(0,0)][index(x,y)];
+	}
+	//
 		public static void isdirected(double a[][]){
 			for(int i=0;i<mat.length;i++){
             	for(int j=0;j<mat[0].length;j++){

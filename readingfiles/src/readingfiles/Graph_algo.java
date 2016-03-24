@@ -26,8 +26,11 @@ public class Graph_algo {
 	            {
 	                min = dist[v];
 	                min_index = v;
+	                System.out.println(min_index);
 	            }
 	 
+	        
+	        
 	        return min_index;
 	    }
 	 
@@ -79,18 +82,26 @@ public class Graph_algo {
 	            // picked vertex.
 	            for (int v = 0; v < V; v++){
 	 
-	                // Update dist[v] only if is not in sptSet, there is an
+	                // Update dist[v] only if is not in shortestpathtreeSet, there is an
 	                // edge from u to v, and total weight of path from src to
 	                // v through u is smaller than current value of dist[v]
 	                if (!sptSet[v] && graph[(int)u][v]!=0 &&
 	                        dist[(int)u] != Integer.MAX_VALUE &&
 	                        dist[(int)u]+graph[(int)u][v] < dist[v]){
-	                	//System.out.println(v);
+	               
+	                	//System.out.println(u+" to "+v);
+	                	//System.out.println(dist[v]);
 	                    dist[v] = dist[(int)u] + graph[(int)u][v];}
+	                //System.out.println(u);
+	                
 	            }
-	           // System.out.println(u);
+	            
+	            //System.out.println(u);
 	        }
 	 
+	       // for(int j=0;j<dist.length;j++){
+	        //	System.out.println(dist[j]);
+	       // }
 	        
 	        
 	        // print the constructed distance array
@@ -116,17 +127,19 @@ public class Graph_algo {
 	                                 };
 	        ShortestPath t = new ShortestPath();
 	        
-	        t.dijkstra(graph, 7,2,9);
+	        t.dijkstra(graph, 0,3,9);
 
+	        
+	        
            /* for(int i=0;i<mat.length;i++){
             	for(int j=0;j<mat[0].length;j++){
             		System.out.print(mat[i][j]+" ");
             	}
             	System.out.println("");
             }*/
-	        ShortestPath g = new ShortestPath();
-	       g.dijkstra(mat, 1, 5, a.getpoints());
-	       g.dijkstra(mat, 5, 1, a.getpoints());
+	        //ShortestPath g = new ShortestPath();
+	       //g.dijkstra(mat, 1, 5, a.getpoints());
+	       //g.dijkstra(mat, 5, 1, a.getpoints());
 	    }
 	    
 	}
